@@ -28,6 +28,18 @@ export default function Home() {
               <h1 className="text-white text-5xl font-bold mb-2">
                 Find your table for any occation
               </h1>
+              {/* SEARCHBAR */}
+              <div className="text-lg text-left py-3 m-auto flex justify-center">
+                <input
+                  className="rounded text-lg mr-3 p-2 w-[450px] bg-white"
+                  type="text"
+                  placeholder="State, city, or town"
+                />
+                <button className="rounded bg-red-600 px-9 py-2 text-white">
+                  Let's Go
+                </button>
+              </div>
+              {/* SEARCHBAR */}
             </div>
           </div>
           {/* HEADER */}
