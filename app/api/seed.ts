@@ -15,11 +15,11 @@ export default async function handler(
   // await prisma.review.deleteMany();
   await prisma.item.deleteMany();
   await prisma.restaurant.deleteMany();
-  await prisma.location.deleteMany();
+  await prisma.locality.deleteMany();
   await prisma.cuisine.deleteMany();
   // await prisma.user.deleteMany();
 
-  await prisma.location.createMany({
+  await prisma.locality.createMany({
     data: [{ name: "ottawa" }, { name: "toronto" }, { name: "niagara" }],
   });
 
@@ -27,7 +27,7 @@ export default async function handler(
     data: [{ name: "indian" }, { name: "italian" }, { name: "mexican" }],
   });
 
-  const locations = await prisma.location.findMany();
+  const localitys = await prisma.locality.findMany();
   const cuisines = await prisma.cuisine.findMany();
 
   const indianCuisineId =
@@ -37,12 +37,12 @@ export default async function handler(
   const italianCuisineId =
     cuisines.find((cuisine) => cuisine.name === "italian")?.id || 1;
 
-  const ottawaLocationId =
-    locations.find((location) => location.name === "ottawa")?.id || 1;
-  const torontoLocationId =
-    locations.find((location) => location.name === "toronto")?.id || 1;
-  const niagaraLocationId =
-    locations.find((location) => location.name === "niagara")?.id || 1;
+  const ottawaLocalityId =
+    localitys.find((locality) => locality.name === "ottawa")?.id || 1;
+  const torontoLocalityId =
+    localitys.find((locality) => locality.name === "toronto")?.id || 1;
+  const niagaraLocalityId =
+    localitys.find((locality) => locality.name === "niagara")?.id || 1;
 
   await prisma.restaurant.createMany({
     data: [
@@ -63,7 +63,7 @@ export default async function handler(
         open_time: "14:30:00.000Z",
         close_time: "21:30:00.000Z",
         slug: "vivaan-fine-indian-cuisine-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: indianCuisineId,
       },
       {
@@ -82,7 +82,7 @@ export default async function handler(
         open_time: "12:30:00.000Z",
         close_time: "22:00:00.000Z",
         slug: "ramakrishna-indian-restaurant-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: indianCuisineId,
       },
       {
@@ -101,7 +101,7 @@ export default async function handler(
         open_time: "17:30:00.000Z",
         close_time: "22:00:00.000Z",
         slug: "coconut-lagoon-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: indianCuisineId,
       },
       {
@@ -120,7 +120,7 @@ export default async function handler(
         open_time: "10:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "last-train-to-delhi-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: indianCuisineId,
       },
       {
@@ -139,7 +139,7 @@ export default async function handler(
         open_time: "16:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "adrak-yorkville-toronto",
-        location_id: torontoLocationId,
+        locality_id: torontoLocalityId,
         cuisine_id: indianCuisineId,
       },
       {
@@ -158,7 +158,7 @@ export default async function handler(
         open_time: "10:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "curryish-tavern-toronto",
-        location_id: torontoLocationId,
+        locality_id: torontoLocalityId,
         cuisine_id: indianCuisineId,
       },
       {
@@ -175,7 +175,7 @@ export default async function handler(
         open_time: "14:00:00.000Z",
         close_time: "19:00:00.000Z",
         slug: "utsav-toronto",
-        location_id: torontoLocationId,
+        locality_id: torontoLocalityId,
         cuisine_id: indianCuisineId,
       },
       {
@@ -194,7 +194,7 @@ export default async function handler(
         open_time: "12:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "pukka-niagara",
-        location_id: niagaraLocationId,
+        locality_id: niagaraLocalityId,
         cuisine_id: indianCuisineId,
       },
       {
@@ -213,7 +213,7 @@ export default async function handler(
         open_time: "10:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "kamasutra-indian-restaurant-and-wine-bar-niagara",
-        location_id: niagaraLocationId,
+        locality_id: niagaraLocalityId,
         cuisine_id: indianCuisineId,
       },
       // MEXICAN //
@@ -233,7 +233,7 @@ export default async function handler(
         open_time: "16:00:00.000Z",
         close_time: "19:00:00.000Z",
         slug: "eldorado-taco-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: mexicanCuisineId,
       },
       {
@@ -254,7 +254,7 @@ export default async function handler(
         open_time: "12:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "la-bartola-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: mexicanCuisineId,
       },
       {
@@ -273,7 +273,7 @@ export default async function handler(
         open_time: "09:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "el-catrin-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: mexicanCuisineId,
       },
       {
@@ -292,7 +292,7 @@ export default async function handler(
         open_time: "09:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "el-catrin-toronto",
-        location_id: torontoLocationId,
+        locality_id: torontoLocalityId,
         cuisine_id: mexicanCuisineId,
       },
       {
@@ -301,7 +301,7 @@ export default async function handler(
           "https://resizer.otstatic.com/v2/photos/wide-huge/3/47744844.jpg",
         price: PRICE.EXPENSIVE,
         description:
-          "The first location in Canada, from famed restauranteurs Noble 33, welcomes patrons into an immersive dining experience.",
+          "The first locality in Canada, from famed restauranteurs Noble 33, welcomes patrons into an immersive dining experience.",
         images: [
           "https://resizer.otstatic.com/v2/photos/xlarge/2/47745080.jpg",
           "https://resizer.otstatic.com/v2/photos/xlarge/2/47745081.jpg",
@@ -312,7 +312,7 @@ export default async function handler(
         open_time: "15:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "casa-madera-toronto",
-        location_id: torontoLocationId,
+        locality_id: torontoLocalityId,
         cuisine_id: mexicanCuisineId,
       },
       {
@@ -332,7 +332,7 @@ export default async function handler(
         open_time: "10:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "casa-madera-niagara",
-        location_id: niagaraLocationId,
+        locality_id: niagaraLocalityId,
         cuisine_id: mexicanCuisineId,
       },
       {
@@ -346,7 +346,7 @@ export default async function handler(
         open_time: "10:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "el-jefe-niagara",
-        location_id: niagaraLocationId,
+        locality_id: niagaraLocalityId,
         cuisine_id: mexicanCuisineId,
       },
       // ITALIAN //
@@ -368,7 +368,7 @@ export default async function handler(
         open_time: "13:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "cano-restaurant-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: italianCuisineId,
       },
       {
@@ -389,7 +389,7 @@ export default async function handler(
         open_time: "15:00:00.000Z",
         close_time: "22:00:00.000Z",
         slug: "blu-ristorante-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: italianCuisineId,
       },
       {
@@ -409,7 +409,7 @@ export default async function handler(
         open_time: "13:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "stelvio-ottawa",
-        location_id: ottawaLocationId,
+        locality_id: ottawaLocalityId,
         cuisine_id: italianCuisineId,
       },
       {
@@ -418,7 +418,7 @@ export default async function handler(
           "https://resizer.otstatic.com/v2/photos/wide-huge/3/46827195.jpg",
         price: PRICE.REGULAR,
         description:
-          "Terroni Adelaide’s multi-level location is located in Toronto’s historic York County Court House circa 1853.",
+          "Terroni Adelaide’s multi-level locality is located in Toronto’s historic York County Court House circa 1853.",
         images: [
           "https://resizer.otstatic.com/v2/photos/xlarge/2/42309468.png",
           "https://resizer.otstatic.com/v2/photos/xlarge/2/42309469.png",
@@ -429,7 +429,7 @@ export default async function handler(
         open_time: "12:00:00.000Z",
         close_time: "18:00:00.000Z",
         slug: "terroni-adelaide-niagara",
-        location_id: niagaraLocationId,
+        locality_id: niagaraLocalityId,
         cuisine_id: italianCuisineId,
       },
       {
@@ -451,7 +451,7 @@ export default async function handler(
         open_time: "09:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "est-restaurant-niagara",
-        location_id: niagaraLocationId,
+        locality_id: niagaraLocalityId,
         cuisine_id: italianCuisineId,
       },
       {
@@ -471,7 +471,7 @@ export default async function handler(
         open_time: "13:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "sofia-toronto",
-        location_id: torontoLocationId,
+        locality_id: torontoLocalityId,
         cuisine_id: italianCuisineId,
       },
       {
@@ -480,7 +480,7 @@ export default async function handler(
           "https://resizer.otstatic.com/v2/photos/wide-huge/3/49463645.png",
         price: PRICE.REGULAR,
         description:
-          "Spaccio West, near the Lower Junction on the West Toronto Railpath, acts as the backstage to the main show taking place at all Terroni locations.",
+          "Spaccio West, near the Lower Junction on the West Toronto Railpath, acts as the backstage to the main show taking place at all Terroni localitys.",
         images: [
           "https://resizer.otstatic.com/v2/photos/xlarge/2/48741813.jpg",
           "https://resizer.otstatic.com/v2/photos/xlarge/2/48741816.jpg",
@@ -491,7 +491,7 @@ export default async function handler(
         open_time: "10:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "terroni-sud-forno-produzione-e-spaccio-toronto",
-        location_id: torontoLocationId,
+        locality_id: torontoLocalityId,
         cuisine_id: italianCuisineId,
       },
       {
@@ -511,7 +511,7 @@ export default async function handler(
         open_time: "07:00:00.000Z",
         close_time: "21:00:00.000Z",
         slug: "il-padrino-toronto",
-        location_id: torontoLocationId,
+        locality_id: torontoLocalityId,
         cuisine_id: italianCuisineId,
       },
     ],
