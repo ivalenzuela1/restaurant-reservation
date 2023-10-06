@@ -6,7 +6,6 @@ import ReservationCard from "./components/ReservationCard";
 import RestaurantNavBar from "./components/RestaurantNavBar";
 import Reviews from "./components/Reviews";
 import Title from "./components/Title";
-import { useSearchParams } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
