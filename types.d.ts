@@ -7,3 +7,11 @@ type RestaurantCardType = {
   price: PRICE;
   slug: string;
 };
+
+type RestaurantType = {
+  id: number;
+  name: string;
+  images: string[];
+  description: string;
+  slug: string;
+};
