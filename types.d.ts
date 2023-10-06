@@ -3,6 +3,7 @@ type RestaurantCardType = {
   name: string;
   main_image: string;
   cuisine: Cuisine;
-  // location: Location;
+  locality: Locality;
   price: PRICE;
+  slug: string;
 };
