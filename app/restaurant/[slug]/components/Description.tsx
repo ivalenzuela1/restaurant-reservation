@@ -1,12 +1,9 @@
 import React from "react";
 
-export default function Description() {
+export default function Description({ description }: { description: string }) {
   return (
     <div className="mt-4">
-      <p className="text-lg font-light">
-        Located in the San Francisco’s energetic Marina district, Montesacro
-        introduces Pinsa and pays homage to Roman culinary traditions.
-      </p>
+      <p className="text-lg font-light">{description}</p>
     </div>
   );
 }

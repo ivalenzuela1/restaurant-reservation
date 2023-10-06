@@ -6,16 +6,54 @@ import ReservationCard from "./components/ReservationCard";
 import RestaurantNavBar from "./components/RestaurantNavBar";
 import Reviews from "./components/Reviews";
 import Title from "./components/Title";
+import { useSearchParams } from "next/navigation";
+import { PrismaClient } from "@prisma/client";
 
-export default function RestaurantDetails() {
+const prisma = new PrismaClient();
+
+type Props = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+const fetchRestaurantBySlug = async (slug: string): Promise<RestaurantType> => {
+  const restaurant = await prisma.restaurant.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      id: true,
+      name: true,
+      images: true,
+      description: true,
+      slug: true,
+    },
+  });
+
+  if (!restaurant) {
+    throw new Error();
+  }
+
+  return restaurant;
+};
+
+export default async function RestaurantDetails({
+  params,
+  searchParams,
+}: Props) {
+  // get url params (slug)
+  const restaurantSlug = params.slug;
+  // fetch restaurant data and filter restaurant data by slug
+  const restaurantData = await fetchRestaurantBySlug(restaurantSlug);
+  // pass data to components
   return (
     <>
       <div className="bg-white w-[70%] rounded p-3 shadow">
-        <RestaurantNavBar />
-        <Title />
+        <RestaurantNavBar slug={restaurantData.slug} />
+        <Title name={restaurantData.name} />
         <Ratings />
-        <Description />
-        <Images />
+        <Description description={restaurantData.description} />
+        <Images images={restaurantData.images} />
         <Reviews />
       </div>
       <div className="w-[27%] relative text-reg">
