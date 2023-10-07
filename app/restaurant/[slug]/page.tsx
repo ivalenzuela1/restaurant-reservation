@@ -26,6 +26,7 @@ const fetchRestaurantBySlug = async (slug: string): Promise<RestaurantType> => {
       images: true,
       description: true,
       slug: true,
+      reviews: true,
     },
   });
 
@@ -50,10 +51,10 @@ export default async function RestaurantDetails({
       <div className="bg-white w-[70%] rounded p-3 shadow">
         <RestaurantNavBar slug={restaurantData.slug} />
         <Title name={restaurantData.name} />
-        <Ratings />
+        <Ratings reviews={restaurantData.reviews} />
         <Description description={restaurantData.description} />
         <Images images={restaurantData.images} />
-        <Reviews />
+        <Reviews reviews={restaurantData.reviews} />
       </div>
       <div className="w-[27%] relative text-reg">
         <ReservationCard />

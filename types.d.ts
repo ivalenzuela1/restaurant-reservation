@@ -6,6 +6,7 @@ type RestaurantCardType = {
   locality: Locality;
   price: PRICE;
   slug: string;
+  reviews: Review[];
 };
 
 type RestaurantType = {
@@ -14,4 +15,5 @@ type RestaurantType = {
   images: string[];
   description: string;
   slug: string;
+  reviews: Review[];
 };
