@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import AuthModalInputs from "./AuthModalInputs";
 
 const style = {
   position: "absolute" as "absolute",
@@ -13,12 +14,11 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
-export default function LoginModal({ isSignIn }: { isSignIn: boolean }) {
+export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -45,12 +45,24 @@ export default function LoginModal({ isSignIn }: { isSignIn: boolean }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} className="text-black">
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <div className="p-2 h-[500px]">
+            <div className="uppercase font-bold text-center pb-2 border-b mb-2">
+              <p className="text-sm"></p>
+              {renderContent("Sign in", "Create Account")}
+            </div>
+            <div className="m-auto">
+              <h2 className="text-2xl font-light text-center">
+                {renderContent(
+                  "Log in to your account",
+                  "Create your Open Table account"
+                )}
+              </h2>
+              <AuthModalInputs />
+              <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 mt-5 disabled:bg:gray-400">
+                {renderContent("Sign in", "Create Account")}
+              </button>
+            </div>
+          </div>
         </Box>
       </Modal>
     </div>
