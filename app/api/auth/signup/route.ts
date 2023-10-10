@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse, NextRequest } from "next/server";
 import validator from "validator";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -61,6 +62,8 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  const hashPassword = await bcrypt.hash(password, 10);
+
   console.log(firstName);
-  return NextResponse.json({ hello: JSON.stringify(userWitEmail) });
+  return NextResponse.json({ hello: hashPassword });
 }
