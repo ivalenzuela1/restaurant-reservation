@@ -1,7 +1,10 @@
 import { ThemeProvider } from "@emotion/react";
+import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse, NextRequest } from "next/server";
 import validator from "validator";
+
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   const { firstName, lastName, email, phone, city, password } =
@@ -46,6 +49,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ errorMessage: JSON.stringify(errors) });
   }
 
+  const userWitEmail = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (userWitEmail) {
+    return NextResponse.json({
+      errorMessage: "Email is associated with another account",
+    });
+  }
+
   console.log(firstName);
-  return NextResponse.json({ hello: firstName });
+  return NextResponse.json({ hello: JSON.stringify(userWitEmail) });
 }
