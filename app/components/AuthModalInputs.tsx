@@ -1,44 +1,75 @@
 import React from "react";
 
-export default function AuthModalInputs() {
+export default function AuthModalInputs({
+  inputs,
+  handleChangeInput,
+  isSignIn,
+}: {
+  inputs: AuthInputs;
+  handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isSignIn: boolean;
+}) {
   return (
     <div>
-      <div className="my-3 flex justify-between text-sm">
-        <input
-          type="text"
-          className="border rounded p-2 py-3 w-[49%] bg-white"
-          placeholder="First Name"
-        />
-        <input
-          type="text"
-          className="border rounded p-2 py-3 w-[49%] bg-white"
-          placeholder="Last Name"
-        />
-      </div>
+      {isSignIn ? null : (
+        <div className="my-3 flex justify-between text-sm">
+          <input
+            type="text"
+            className="border rounded p-2 py-3 w-[49%] bg-white"
+            placeholder="First Name"
+            value={inputs.firstName}
+            onChange={handleChangeInput}
+            name="firstName"
+          />
+          <input
+            type="text"
+            className="border rounded p-2 py-3 w-[49%] bg-white"
+            placeholder="Last Name"
+            value={inputs.lastName}
+            onChange={handleChangeInput}
+            name="lastName"
+          />
+        </div>
+      )}
       <div className="my-3 flex justify-between text-sm">
         <input
           type="text"
           className="border rounded p-2 py-3 w-full bg-white"
           placeholder="Email"
+          value={inputs.email}
+          onChange={handleChangeInput}
+          name="email"
         />
       </div>
+
+      {isSignIn ? null : (
+        <div className="my-3 flex justify-between text-sm">
+          <input
+            type="text"
+            className="border rounded p-2 py-3 w-[49%] bg-white"
+            placeholder="Phone"
+            value={inputs.phone}
+            onChange={handleChangeInput}
+            name="phone"
+          />
+          <input
+            type="text"
+            className="border rounded p-2 py-3 w-[49%] bg-white"
+            placeholder="City"
+            value={inputs.city}
+            onChange={handleChangeInput}
+            name="city"
+          />
+        </div>
+      )}
       <div className="my-3 flex justify-between text-sm">
         <input
-          type="text"
-          className="border rounded p-2 py-3 w-[49%] bg-white"
-          placeholder="Phone"
-        />
-        <input
-          type="text"
-          className="border rounded p-2 py-3 w-[49%] bg-white"
-          placeholder="City"
-        />
-      </div>
-      <div className="my-3 flex justify-between text-sm">
-        <input
-          type="text"
+          type="password"
           className="border rounded p-2 py-3 w-full bg-white"
           placeholder="Password"
+          value={inputs.password}
+          onChange={handleChangeInput}
+          name="password"
         />
       </div>
     </div>
