@@ -1,4 +1,5 @@
 import { Item, PrismaClient } from "@prisma/client";
+import { notFound } from "next/navigation";
 import React from "react";
 import Menu from "../components/Menu";
 import RestaurantNavBar from "../components/RestaurantNavBar";
@@ -16,7 +17,8 @@ const fetchRestaurantMenu = async (slug: string): Promise<Item[]> => {
   });
 
   if (!restaurant) {
-    throw new Error();
+    notFound();
+    //throw new Error(`No menu found for restaurant: ${slug}`);
   }
 
   return restaurant.items;
@@ -28,8 +30,7 @@ export default async function RestaurantMenu({
   params: { slug: string };
 }) {
   const menu = await fetchRestaurantMenu(params.slug);
-  console.log(params.slug);
-  console.log(menu);
+
   return (
     <>
       <div className="bg-white w-[100%] rounded p-3 shadow">
