@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse, NextRequest } from "next/server";
 import validator from "validator";
