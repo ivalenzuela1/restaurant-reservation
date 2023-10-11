@@ -26,3 +26,18 @@ type AuthInputs = {
   city: string;
   password: string;
 };
+
+type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  city: string;
+};
+
+type State = {
+  loading: boolean;
+  error: string | null;
+  data: User | null;
+};
