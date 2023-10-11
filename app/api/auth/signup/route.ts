@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse, NextRequest } from "next/server";
 import validator from "validator";
 import bcrypt from "bcrypt";
+import * as jose from "jose";
 
 const prisma = new PrismaClient();
 
@@ -75,5 +76,12 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  return NextResponse.json({ user });
+  const alg = "HS256";
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+  const token = await new jose.SignJWT({ email: user.email })
+    .setProtectedHeader({ alg })
+    .setExpirationTime("24h")
+    .sign(secret);
+
+  return NextResponse.json({ token });
 }
