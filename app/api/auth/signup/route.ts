@@ -17,38 +17,38 @@ export async function POST(request: NextRequest) {
   const validationSchema = [
     {
       valid: validator.isLength(firstName, { min: 1, max: 20 }),
-      errorMessage: "First name is invalid",
+      message: "First name is invalid",
     },
     {
       valid: validator.isLength(lastName, { min: 1, max: 20 }),
-      errorMessage: "Last name is invalid",
+      message: "Last name is invalid",
     },
     {
       valid: validator.isEmail(email),
-      errorMessage: "Email is invalid",
+      message: "Email is invalid",
     },
     {
       valid: validator.isMobilePhone(phone),
-      errorMessage: "Phone number is invalid",
+      message: "Phone number is invalid",
     },
     {
       valid: validator.isLength(city, { min: 1, max: 20 }),
-      errorMessage: "City is invalid",
+      message: "City is invalid",
     },
     {
       valid: validator.isStrongPassword(password),
-      errorMessage: "Password is not Strong enough",
+      message: "Password is not Strong enough",
     },
   ];
 
   validationSchema.forEach((check) => {
     if (!check.valid) {
-      errors.push(check.errorMessage);
+      errors.push(check.message);
     }
   });
 
   if (errors.length) {
-    return NextResponse.json({ errorMessage: JSON.stringify(errors) });
+    return NextResponse.json({ message: errors[0], status: 404 });
   }
 
   const userWitEmail = await prisma.user.findUnique({
@@ -59,7 +59,8 @@ export async function POST(request: NextRequest) {
 
   if (userWitEmail) {
     return NextResponse.json({
-      errorMessage: "Email is associated with another account",
+      message: "Email is associated with another account",
+      status: 404,
     });
   }
 

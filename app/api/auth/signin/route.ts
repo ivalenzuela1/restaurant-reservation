@@ -14,22 +14,22 @@ export async function POST(request: NextRequest) {
   const validationSchema = [
     {
       valid: validator.isEmail(email),
-      errorMessage: "Email is invalid",
+      message: "Email is invalid",
     },
     {
       valid: validator.isLength(password, { min: 1 }),
-      errorMessage: "Password is invalid",
+      message: "Password is invalid",
     },
   ];
 
   validationSchema.forEach((check) => {
     if (!check.valid) {
-      errors.push(check.errorMessage);
+      errors.push(check.message);
     }
   });
 
   if (errors.length) {
-    return NextResponse.json({ errorMessage: JSON.stringify(errors) });
+    return NextResponse.json({ message: JSON.stringify(errors), status: 404 });
   }
 
   const userWitEmail = await prisma.user.findUnique({
