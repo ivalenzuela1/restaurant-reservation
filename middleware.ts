@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
   if (!bearerToken) {
     return NextResponse.json({
-      errorMessage: "Unauthorized request (no bearer)",
+      message: "Unauthorized request (no bearer)",
       status: 401,
     });
   }
@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
   if (!token) {
     return NextResponse.json({
-      errorMessage: "Unauthorized request (no token)",
+      message: "Unauthorized request (no token)",
       status: 401,
     });
   }
@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
     await jose.jwtVerify(token, secret);
   } catch (e) {
     return NextResponse.json({
-      errorMessage: "Unauthorized request (jwt)",
+      message: "Unauthorized request (jwt)",
       status: 401,
     });
   }

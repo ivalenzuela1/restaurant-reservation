@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
   if (!payload.email) {
     return NextResponse.json({
-      errorMessage: "Unauthorized request (no email)",
+      message: "Unauthorized request (no email)",
       status: 401,
     });
   }
