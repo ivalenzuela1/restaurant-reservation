@@ -37,7 +37,7 @@ const useAuth = () => {
       console.log(e);
       setAuthState({
         data: null,
-        error: e.response.data.message,
+        error: e.response.data,
         loading: false,
       });
     }

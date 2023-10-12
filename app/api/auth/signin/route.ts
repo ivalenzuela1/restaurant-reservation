@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (errors.length) {
-    return NextResponse.json({ message: JSON.stringify(errors), status: 404 });
+    return new NextResponse(JSON.stringify(errors[0]), { status: 400 });
   }
 
   const userWitEmail = await prisma.user.findUnique({
@@ -39,18 +39,16 @@ export async function POST(request: NextRequest) {
   });
 
   if (!userWitEmail) {
-    return NextResponse.json({
-      message: "Email or password is invalid",
-      status: 401,
+    return new NextResponse("Email or password is invalid (userWitEmail)", {
+      status: 400,
     });
   }
 
   const isMatch = await bcrypt.compare(password, userWitEmail.password);
 
   if (!isMatch) {
-    return NextResponse.json({
-      message: "Email or password is invalid",
-      status: 401,
+    return new NextResponse("Email or password is invalid (isMatch)", {
+      status: 400,
     });
   }
 
