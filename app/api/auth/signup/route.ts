@@ -1,10 +1,9 @@
-import { ThemeProvider } from "@emotion/react";
 import { PrismaClient } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse, NextRequest } from "next/server";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import * as jose from "jose";
+import { cookies } from "next/headers";
 
 const prisma = new PrismaClient();
 
@@ -48,7 +47,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (errors.length) {
-    return NextResponse.json({ message: errors[0], status: 404 });
+    return new NextResponse(JSON.stringify(errors[0]), { status: 400 });
   }
 
   const userWitEmail = await prisma.user.findUnique({
@@ -58,9 +57,8 @@ export async function POST(request: NextRequest) {
   });
 
   if (userWitEmail) {
-    return NextResponse.json({
-      message: "Email is associated with another account",
-      status: 404,
+    return new NextResponse("Email is associated with another account", {
+      status: 400,
     });
   }
 
@@ -84,5 +82,13 @@ export async function POST(request: NextRequest) {
     .setExpirationTime("24h")
     .sign(secret);
 
-  return NextResponse.json({ token });
+  cookies().set("jwt", token, { maxAge: 60 * 6 * 24 });
+
+  return NextResponse.json({
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email,
+    phone: user.phone,
+    city: user.city,
+  });
 }
