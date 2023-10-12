@@ -19,9 +19,8 @@ export async function GET(request: NextRequest) {
   const payload = jwt.decode(token) as { email: string };
 
   if (!payload.email) {
-    return NextResponse.json({
-      message: "Unauthorized request (no email)",
-      status: 401,
+    return new NextResponse("Unauthorized request (no email)", {
+      status: 400,
     });
   }
 
@@ -41,5 +40,17 @@ export async function GET(request: NextRequest) {
     },
   });
 
-  return NextResponse.json({ user });
+  if (!user) {
+    return new NextResponse("User not found!", {
+      status: 401,
+    });
+  }
+
+  return NextResponse.json({
+    id: user.id,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    city: user.city,
+    phone: user.phone,
+  });
 }
