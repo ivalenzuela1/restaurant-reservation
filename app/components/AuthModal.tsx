@@ -4,7 +4,6 @@ import { useState, useEffect, ChangeEvent, useContext } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import AuthModalInputs from "./AuthModalInputs";
-import { useRouter } from "next/navigation";
 import useAuth from "../../hooks/useAuth";
 import { AuthenticationContext } from "../context/AuthContext";
 import { Alert, CircularProgress } from "@mui/material";
@@ -25,9 +24,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { signin } = useAuth();
-
-  const router = useRouter();
+  const { signin, signup } = useAuth();
 
   const renderContent = (signInContent: string, signUpContent: string) => {
     return isSignIn ? signInContent : signUpContent;
@@ -43,6 +40,8 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
   const handleClick = async () => {
     if (isSignIn) {
       signin({ email: inputs.email, password: inputs.password }, handleClose);
+    } else {
+      signup(inputs, handleClose);
     }
   };
 
