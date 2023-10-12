@@ -6,13 +6,16 @@ const useAuth = () => {
   const { data, error, loading, setAuthState } = useContext(
     AuthenticationContext
   );
-  const signin = async ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
+  const signin = async (
+    {
+      email,
+      password,
+    }: {
+      email: string;
+      password: string;
+    },
+    handleClose: () => void
+  ) => {
     setAuthState({
       data: null,
       error: null,
@@ -27,12 +30,14 @@ const useAuth = () => {
         }
       );
 
-      console.log(response);
       setAuthState({
         data: response.data,
         error: null,
         loading: false,
       });
+
+      // sign in successful, close dialog
+      handleClose();
     } catch (e: any) {
       console.log(e);
       setAuthState({
