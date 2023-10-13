@@ -87,6 +87,7 @@ export default async function SearchSideBar({
                       },
                     }}
                     className={className}
+                    key={price}
                   >
                     {label}
                   </Link>
