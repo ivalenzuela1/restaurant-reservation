@@ -16,6 +16,8 @@ type RestaurantType = {
   description: string;
   slug: string;
   reviews: Review[];
+  open_time: string;
+  close_time: string;
 };
 
 type AuthInputs = {
