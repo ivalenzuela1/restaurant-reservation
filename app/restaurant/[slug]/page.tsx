@@ -28,6 +28,8 @@ const fetchRestaurantBySlug = async (slug: string): Promise<RestaurantType> => {
       description: true,
       slug: true,
       reviews: true,
+      open_time: true,
+      close_time: true,
     },
   });
 
@@ -59,7 +61,10 @@ export default async function RestaurantDetails({
         <Reviews reviews={restaurantData.reviews} />
       </div>
       <div className="w-[27%] relative text-reg">
-        <ReservationCard />
+        <ReservationCard
+          openTime={restaurantData.open_time}
+          closeTime={restaurantData.close_time}
+        />
       </div>
     </>
   );
