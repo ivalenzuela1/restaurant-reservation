@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import * as jose from "jose";
 import { cookies } from "next/headers";
 
-//const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export async function GET(
   req: NextRequest,
@@ -33,7 +33,22 @@ export async function GET(
     });
   }
 
+  const bookings = await prisma.booking.findMany({
+    where: {
+      booking_time: {
+        gte: new Date(`${day}T${searchTimes[0]}`),
+        lte: new Date(`${day}T${searchTimes[searchTimes.length - 1]}`),
+      },
+    },
+    select: {
+      number_of_people: true,
+      booking_time: true,
+      tables: true,
+    },
+  });
+
   return NextResponse.json({ slug, day, time, partySize, searchTimes });
 }
 
-//Sample URL: http://localhost:3000/api/restaurant/kamasutra-indian-restaurant-and-wine-bar-niagara/availability?day=1&time=02:30:00.000Z&partySize=15
+//Sample URL: http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/availability?day=1&time=02:30:00.000Z&partySize=15
+//vivaan-fine-indian-cuisine-ottawa
