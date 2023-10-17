@@ -52,7 +52,7 @@ export async function GET(
     bookingTablesObj[booking.booking_time.toISOString()] =
       booking.tables.reduce((obj, table) => {
         return { ...obj, [table.table_id]: true };
-      });
+      }, {});
   });
 
   const restaurant = await prisma.restaurant.findUnique({
@@ -71,6 +71,7 @@ export async function GET(
   }
 
   const tables = restaurant.tables;
+
   const searchTimesWithTables = searchTimes.map((searchTime) => {
     return {
       date: new Date(`${day}T${searchTime}`),
@@ -79,18 +80,45 @@ export async function GET(
     };
   });
 
+  searchTimesWithTables.forEach((t) => {
+    t.tables = t.tables.filter((table) => {
+      if (bookingTablesObj[t.date.toISOString()]) {
+        if (bookingTablesObj[t.date.toISOString()][table.id]) {
+          return false;
+        }
+      }
+      return true;
+    });
+  });
+
+  const availabilities = searchTimesWithTables.map((t) => {
+    const sumSeats = t.tables.reduce((sum, table) => {
+      return sum + table.seats;
+    }, 0);
+
+    return {
+      time: t.time,
+      available: sumSeats >= parseInt(partySize),
+    };
+  });
+
   return NextResponse.json({
-    slug,
-    day,
-    time,
-    partySize,
-    searchTimes,
-    bookings,
+    availabilities,
     bookingTablesObj,
     tables,
     searchTimesWithTables,
   });
 }
 
-//Sample URL: http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/availability?day=2023-05-22&time=14:30:00.000Z&partySize=15
+//Sample URL: http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/availability?day=2023-05-27&time=15:00:00.000Z&partySize=4
 //vivaan-fine-indian-cuisine-ottawa
+// 99
+
+/*
+    slug,
+    day,
+    time,
+    partySize,
+    searchTimes,
+    bookings,
+    */
