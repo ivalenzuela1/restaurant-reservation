@@ -4,7 +4,7 @@ import { findAvailableTables } from "../../../../../services/restaurant/findAvai
 
 const prisma = new PrismaClient();
 
-export async function GET(
+export async function POST(
   req: NextRequest,
   { params }: { params: { slug: string } }
 ) {
@@ -12,6 +12,17 @@ export async function GET(
   const { day, time, partySize } = Object.fromEntries(
     req.nextUrl.searchParams.entries()
   );
+
+  const {
+    bookerEmail,
+    bookerPhone,
+    bookerFirstName,
+    bookerLastName,
+    bookerOccasion,
+    bookerRequest,
+  } = await req.json();
+
+  // TODO: validate data (similar to Sign in endpoint)
 
   if (!day || !time || !partySize) {
     return new NextResponse("Invalid data provided", {
@@ -27,6 +38,7 @@ export async function GET(
       tables: true,
       open_time: true,
       close_time: true,
+      id: true,
     },
   });
 
@@ -114,7 +126,29 @@ export async function GET(
     }
   }
 
-  return NextResponse.json({ tablesToBook, tablesCount });
+  const booking = await prisma.booking.create({
+    data: {
+      number_of_people: parseInt(partySize),
+      booking_time: new Date(`${day}T${time}`),
+      booker_email: bookerEmail,
+      booker_phone: bookerPhone,
+      booker_first_name: bookerFirstName,
+      booker_last_name: bookerLastName,
+      booker_occasion: bookerOccasion,
+      booker_request: bookerRequest,
+      restaurant_id: restaurant.id,
+    },
+  });
+
+  const bookingOnTablesData = tablesToBook.map((table_id) => {
+    return { table_id, booking_id: booking.id };
+  });
+
+  await prisma.bookingsOnTables.createMany({
+    data: bookingOnTablesData,
+  });
+
+  return NextResponse.json({ booking });
 }
 
 // http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/reserve?day=2023-10-16&time=15:00:00.000Z&partySize=4
