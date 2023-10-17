@@ -23,6 +23,30 @@ export async function GET(
     });
   }
 
+  const restaurant = await prisma.restaurant.findUnique({
+    where: {
+      slug,
+    },
+  });
+
+  // Check if restaurant exists
+  if (!restaurant) {
+    return new NextResponse("Restaurant not found", {
+      status: 400,
+    });
+  }
+
+  // Check restaurant times
+  const selectedTime = new Date(`${day}T${time}`);
+  const openTime = new Date(`${day}T${restaurant.open_time}`);
+  const closeTime = new Date(`${day}T${restaurant.close_time}`);
+
+  // if provided hours are not within restaurant hours, return error
+  if (selectedTime < openTime || selectedTime > closeTime) {
+    return new NextResponse("Time is outside of open hours", {
+      status: 400,
+    });
+  }
   return NextResponse.json({ slug, day, time, partySize });
 }
 
