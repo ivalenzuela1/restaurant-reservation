@@ -144,11 +144,10 @@ export default function ReservationCard({
                   {time.time}
                 </p>
               );
-              // return <div className="bg-red-600 flex gap">{time.time}</div>;
             })}
           </div>
         </div>
       ) : null}
     </div>
-  ); //
+  );
 }
