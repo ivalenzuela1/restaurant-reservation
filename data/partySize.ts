@@ -28,15 +28,31 @@ export const partySize = [
     label: "8 people",
   },
   {
-    value: 8,
-    label: "8 people",
-  },
-  {
     value: 9,
     label: "9 people",
   },
   {
     value: 10,
     label: "10 people",
+  },
+  {
+    value: 11,
+    label: "11 people",
+  },
+  {
+    value: 12,
+    label: "12 people",
+  },
+  {
+    value: 13,
+    label: "13 people",
+  },
+  {
+    value: 14,
+    label: "14 people",
+  },
+  {
+    value: 15,
+    label: "15 people",
   },
 ];

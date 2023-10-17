@@ -64,6 +64,7 @@ export default async function RestaurantDetails({
         <ReservationCard
           openTime={restaurantData.open_time}
           closeTime={restaurantData.close_time}
+          slug={restaurantData.slug}
         />
       </div>
     </>
