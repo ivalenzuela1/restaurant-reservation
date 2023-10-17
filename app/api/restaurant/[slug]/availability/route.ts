@@ -47,8 +47,24 @@ export async function GET(
     },
   });
 
-  return NextResponse.json({ slug, day, time, partySize, searchTimes });
+  const bookingTablesObj: { [key: string]: { [key: number]: true } } = {};
+  bookings.forEach((booking) => {
+    bookingTablesObj[booking.booking_time.toISOString()] =
+      booking.tables.reduce((obj, table) => {
+        return { ...obj, [table.table_id]: true };
+      });
+  });
+
+  return NextResponse.json({
+    slug,
+    day,
+    time,
+    partySize,
+    searchTimes,
+    bookings,
+    bookingTablesObj,
+  });
 }
 
-//Sample URL: http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/availability?day=1&time=02:30:00.000Z&partySize=15
+//Sample URL: http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/availability?day=2023-05-22&time=14:30:00.000Z&partySize=15
 //vivaan-fine-indian-cuisine-ottawa
