@@ -114,9 +114,7 @@ export async function GET(
       return timeIsAfterOpeningHour && timeIsBeforeClosingHour;
     });
 
-  return NextResponse.json({
-    availabilities,
-  });
+  return NextResponse.json(availabilities);
 }
 
 //Sample URL: http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/availability?day=2023-05-27&time=15:00:00.000Z&partySize=4
