@@ -55,6 +55,30 @@ export async function GET(
       });
   });
 
+  const restaurant = await prisma.restaurant.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      tables: true,
+    },
+  });
+
+  if (!restaurant) {
+    return new NextResponse("Invalid data provided", {
+      status: 400,
+    });
+  }
+
+  const tables = restaurant.tables;
+  const searchTimesWithTables = searchTimes.map((searchTime) => {
+    return {
+      date: new Date(`${day}T${searchTime}`),
+      time: searchTime,
+      tables,
+    };
+  });
+
   return NextResponse.json({
     slug,
     day,
@@ -63,6 +87,8 @@ export async function GET(
     searchTimes,
     bookings,
     bookingTablesObj,
+    tables,
+    searchTimesWithTables,
   });
 }
 
