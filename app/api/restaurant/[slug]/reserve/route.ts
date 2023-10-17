@@ -1,10 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse, NextRequest } from "next/server";
-import { times } from "../../../../../data";
-import validator from "validator";
-import bcrypt from "bcrypt";
-import * as jose from "jose";
-import { cookies } from "next/headers";
+import { findAvailableTables } from "../../../../../services/restaurant/findAvailableTables";
 
 const prisma = new PrismaClient();
 
@@ -27,6 +23,11 @@ export async function GET(
     where: {
       slug,
     },
+    select: {
+      tables: true,
+      open_time: true,
+      close_time: true,
+    },
   });
 
   // Check if restaurant exists
@@ -47,7 +48,30 @@ export async function GET(
       status: 400,
     });
   }
-  return NextResponse.json({ slug, day, time, partySize });
+
+  const searchTimesWithTables = await findAvailableTables({
+    time,
+    day,
+    restaurant,
+  });
+
+  if (!searchTimesWithTables) {
+    return new NextResponse("Invalid data provided", {
+      status: 400,
+    });
+  }
+
+  const searchTimeWithTables = searchTimesWithTables.find((t) => {
+    return t.date.toISOString() === selectedTime.toISOString();
+  });
+
+  if (!searchTimeWithTables) {
+    return new NextResponse("No availability, cannot book   ", {
+      status: 400,
+    });
+  }
+
+  return NextResponse.json({ searchTimeWithTables });
 }
 
-// http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/reserve?day=2023-05-27&time=15:00:00.000Z&partySize=4
+// http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/reserve?day=2023-10-16&time=15:00:00.000Z&partySize=4
