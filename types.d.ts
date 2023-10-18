@@ -43,3 +43,12 @@ type State = {
   error: string | null;
   data: User | null;
 };
+
+type ReserveInput = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  occasion: string;
+  request: string;
+};
