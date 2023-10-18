@@ -1,4 +1,11 @@
+import React from "react";
+
+export default function Seed() {
+  return <div>Seed</div>;
+}
+
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+/*
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PRICE, PrismaClient } from "@prisma/client";
 
@@ -1324,3 +1331,4 @@ export default async function handler(
 
   res.status(200).json({ name: "hello" });
 }
+*/

@@ -2,7 +2,7 @@ import { Cuisine, Locality, PRICE } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 
-export default async function SearchSideBar({
+export default function SearchSideBar({
   locations,
   cuisines,
   searchParams,
