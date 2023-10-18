@@ -41,7 +41,7 @@ export default async function Reserve({ params, searchParams }: Props) {
           dateTime={dateTime}
           partySize={partySize}
         />
-        <Form />
+        <Form slug={slug} dateTime={dateTime} partySize={partySize} />
       </div>
     </div>
   );

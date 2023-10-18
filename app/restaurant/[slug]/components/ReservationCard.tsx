@@ -138,7 +138,7 @@ export default function ReservationCard({
                 </Link>
               ) : (
                 <p className="bg-gray-300 p-2 w-24 text-white mb-3 rounded mr-3">
-                  {time.time}
+                  {convertToDisplayTime(time.time as Time)}
                 </p>
               );
             })}
